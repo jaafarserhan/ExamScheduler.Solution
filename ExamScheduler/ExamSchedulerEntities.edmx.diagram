@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="178360988c754792a9539eb2adbb247a" Name="Diagram1">
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.Campus" Width="1.875" PointX="1.375" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.Course" Width="1.5" PointX="2.125" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.ExamStage" Width="1.5" PointX="1.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.Role" Width="1.5" PointX="4.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.Room" Width="1.5" PointX="7.125" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.User" Width="1.5" PointX="9.625" PointY="4.875" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_User_Campus" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_User_Role" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.ScheduledExamProcter" Width="1.5" PointX="11.875" PointY="7" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.ScheduledExamStudent" Width="1.5" PointX="11.875" PointY="4" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExamProcter_User" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExamStudent_User" />
+        <EntityTypeShape EntityType="ExamSchedulerDbModel.ScheduledExam" Width="1.5" PointX="9.375" PointY="8.875" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExam_Campus" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExam_Course" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExam_ExamStage" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExam_Room" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExamProcter_ScheduledExam" />
+        <AssociationConnector Association="ExamSchedulerDbModel.FK_ScheduledExamStudent_ScheduledExam" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

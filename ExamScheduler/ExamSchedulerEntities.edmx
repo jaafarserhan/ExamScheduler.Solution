@@ -1,0 +1,640 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExamSchedulerDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Campus">
+          <Key>
+            <PropertyRef Name="CampusID" />
+          </Key>
+          <Property Name="CampusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ExamStage">
+          <Key>
+            <PropertyRef Name="ExamStageID" />
+          </Key>
+          <Property Name="ExamStageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ScheduledExam">
+          <Key>
+            <PropertyRef Name="ScheduledExamID" />
+          </Key>
+          <Property Name="ScheduledExamID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseID" Type="int" />
+          <Property Name="RoomID" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="CampusID" Type="int" />
+          <Property Name="ExamStageID" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="ScheduledExamProcter">
+          <Key>
+            <PropertyRef Name="ScheduledExamProcterID" />
+          </Key>
+          <Property Name="ScheduledExamProcterID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="ScheduledExamID" Type="int" />
+        </EntityType>
+        <EntityType Name="ScheduledExamStudent">
+          <Key>
+            <PropertyRef Name="ScheduledExamStudentID" />
+          </Key>
+          <Property Name="ScheduledExamStudentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="ScheduledExamID" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="CampusID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Email" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_ScheduledExam_Campus">
+          <End Role="Campus" Type="Self.Campus" Multiplicity="0..1" />
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campus">
+              <PropertyRef Name="CampusID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="CampusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_Course">
+          <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_ExamStage">
+          <End Role="ExamStage" Type="Self.ExamStage" Multiplicity="0..1" />
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamStage">
+              <PropertyRef Name="ExamStageID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="ExamStageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamProcter_ScheduledExam">
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="0..1" />
+          <End Role="ScheduledExamProcter" Type="Self.ScheduledExamProcter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledExam">
+              <PropertyRef Name="ScheduledExamID" />
+            </Principal>
+            <Dependent Role="ScheduledExamProcter">
+              <PropertyRef Name="ScheduledExamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamProcter_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="ScheduledExamProcter" Type="Self.ScheduledExamProcter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ScheduledExamProcter">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamStudent_ScheduledExam">
+          <End Role="ScheduledExam" Type="Self.ScheduledExam" Multiplicity="0..1" />
+          <End Role="ScheduledExamStudent" Type="Self.ScheduledExamStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledExam">
+              <PropertyRef Name="ScheduledExamID" />
+            </Principal>
+            <Dependent Role="ScheduledExamStudent">
+              <PropertyRef Name="ScheduledExamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamStudent_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="ScheduledExamStudent" Type="Self.ScheduledExamStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ScheduledExamStudent">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Campus">
+          <End Role="Campus" Type="Self.Campus" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campus">
+              <PropertyRef Name="CampusID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CampusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamSchedulerDbModelStoreContainer">
+          <EntitySet Name="Campus" EntityType="Self.Campus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExamStage" EntityType="Self.ExamStage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledExam" EntityType="Self.ScheduledExam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledExamProcter" EntityType="Self.ScheduledExamProcter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduledExamStudent" EntityType="Self.ScheduledExamStudent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ScheduledExam_Campus" Association="Self.FK_ScheduledExam_Campus">
+            <End Role="Campus" EntitySet="Campus" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_Course" Association="Self.FK_ScheduledExam_Course">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_ExamStage" Association="Self.FK_ScheduledExam_ExamStage">
+            <End Role="ExamStage" EntitySet="ExamStage" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_Room" Association="Self.FK_ScheduledExam_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamProcter_ScheduledExam" Association="Self.FK_ScheduledExamProcter_ScheduledExam">
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+            <End Role="ScheduledExamProcter" EntitySet="ScheduledExamProcter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamProcter_User" Association="Self.FK_ScheduledExamProcter_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ScheduledExamProcter" EntitySet="ScheduledExamProcter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamStudent_ScheduledExam" Association="Self.FK_ScheduledExamStudent_ScheduledExam">
+            <End Role="ScheduledExam" EntitySet="ScheduledExam" />
+            <End Role="ScheduledExamStudent" EntitySet="ScheduledExamStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamStudent_User" Association="Self.FK_ScheduledExamStudent_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ScheduledExamStudent" EntitySet="ScheduledExamStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Campus" Association="Self.FK_User_Campus">
+            <End Role="Campus" EntitySet="Campus" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamSchedulerDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Campus">
+          <Key>
+            <PropertyRef Name="CampusID" />
+          </Key>
+          <Property Name="CampusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="ExamSchedulerDbModel.FK_User_Campus" FromRole="Campus" ToRole="User" />
+          <NavigationProperty Name="ScheduledExams" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Campus" FromRole="Campus" ToRole="ScheduledExam" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScheduledExams" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Course" FromRole="Course" ToRole="ScheduledExam" />
+        </EntityType>
+        <EntityType Name="ExamStage">
+          <Key>
+            <PropertyRef Name="ExamStageID" />
+          </Key>
+          <Property Name="ExamStageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScheduledExams" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_ExamStage" FromRole="ExamStage" ToRole="ScheduledExam" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="ExamSchedulerDbModel.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomID" />
+          </Key>
+          <Property Name="RoomID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScheduledExams" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Room" FromRole="Room" ToRole="ScheduledExam" />
+        </EntityType>
+        <EntityContainer Name="ExamSchedulerDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Campus1" EntityType="ExamSchedulerDbModel.Campus" />
+          <EntitySet Name="Courses" EntityType="Self.Course" />
+          <EntitySet Name="ExamStages" EntityType="Self.ExamStage" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="Users" EntityType="ExamSchedulerDbModel.User" />
+          <AssociationSet Name="FK_User_Campus" Association="ExamSchedulerDbModel.FK_User_Campus">
+            <End Role="Campus" EntitySet="Campus1" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="ExamSchedulerDbModel.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="ScheduledExamProcters" EntityType="ExamSchedulerDbModel.ScheduledExamProcter" />
+          <EntitySet Name="ScheduledExamStudents" EntityType="ExamSchedulerDbModel.ScheduledExamStudent" />
+          <AssociationSet Name="FK_ScheduledExamProcter_User" Association="ExamSchedulerDbModel.FK_ScheduledExamProcter_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ScheduledExamProcter" EntitySet="ScheduledExamProcters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamStudent_User" Association="ExamSchedulerDbModel.FK_ScheduledExamStudent_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ScheduledExamStudent" EntitySet="ScheduledExamStudents" />
+          </AssociationSet>
+          <EntitySet Name="ScheduledExams" EntityType="ExamSchedulerDbModel.ScheduledExam" />
+          <AssociationSet Name="FK_ScheduledExam_Campus" Association="ExamSchedulerDbModel.FK_ScheduledExam_Campus">
+            <End Role="Campus" EntitySet="Campus1" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_Course" Association="ExamSchedulerDbModel.FK_ScheduledExam_Course">
+            <End Role="Course" EntitySet="Courses" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_ExamStage" Association="ExamSchedulerDbModel.FK_ScheduledExam_ExamStage">
+            <End Role="ExamStage" EntitySet="ExamStages" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExam_Room" Association="ExamSchedulerDbModel.FK_ScheduledExam_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamProcter_ScheduledExam" Association="ExamSchedulerDbModel.FK_ScheduledExamProcter_ScheduledExam">
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+            <End Role="ScheduledExamProcter" EntitySet="ScheduledExamProcters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScheduledExamStudent_ScheduledExam" Association="ExamSchedulerDbModel.FK_ScheduledExamStudent_ScheduledExam">
+            <End Role="ScheduledExam" EntitySet="ScheduledExams" />
+            <End Role="ScheduledExamStudent" EntitySet="ScheduledExamStudents" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="CampusID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Campu" Relationship="ExamSchedulerDbModel.FK_User_Campus" FromRole="User" ToRole="Campus" />
+          <NavigationProperty Name="Role" Relationship="ExamSchedulerDbModel.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="ScheduledExamProcters" Relationship="ExamSchedulerDbModel.FK_ScheduledExamProcter_User" FromRole="User" ToRole="ScheduledExamProcter" />
+          <NavigationProperty Name="ScheduledExamStudents" Relationship="ExamSchedulerDbModel.FK_ScheduledExamStudent_User" FromRole="User" ToRole="ScheduledExamStudent" />
+        </EntityType>
+        <Association Name="FK_User_Campus">
+          <End Type="ExamSchedulerDbModel.Campus" Role="Campus" Multiplicity="1" />
+          <End Type="ExamSchedulerDbModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campus">
+              <PropertyRef Name="CampusID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="CampusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Type="ExamSchedulerDbModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="ExamSchedulerDbModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ScheduledExamProcter">
+          <Key>
+            <PropertyRef Name="ScheduledExamProcterID" />
+          </Key>
+          <Property Name="ScheduledExamProcterID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ScheduledExamID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="ExamSchedulerDbModel.FK_ScheduledExamProcter_User" FromRole="ScheduledExamProcter" ToRole="User" />
+          <NavigationProperty Name="ScheduledExam" Relationship="ExamSchedulerDbModel.FK_ScheduledExamProcter_ScheduledExam" FromRole="ScheduledExamProcter" ToRole="ScheduledExam" />
+        </EntityType>
+        <EntityType Name="ScheduledExamStudent">
+          <Key>
+            <PropertyRef Name="ScheduledExamStudentID" />
+          </Key>
+          <Property Name="ScheduledExamStudentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="ScheduledExamID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="ExamSchedulerDbModel.FK_ScheduledExamStudent_User" FromRole="ScheduledExamStudent" ToRole="User" />
+          <NavigationProperty Name="ScheduledExam" Relationship="ExamSchedulerDbModel.FK_ScheduledExamStudent_ScheduledExam" FromRole="ScheduledExamStudent" ToRole="ScheduledExam" />
+        </EntityType>
+        <Association Name="FK_ScheduledExamProcter_User">
+          <End Type="ExamSchedulerDbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExamProcter" Role="ScheduledExamProcter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ScheduledExamProcter">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamStudent_User">
+          <End Type="ExamSchedulerDbModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExamStudent" Role="ScheduledExamStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ScheduledExamStudent">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ScheduledExam">
+          <Key>
+            <PropertyRef Name="ScheduledExamID" />
+          </Key>
+          <Property Name="ScheduledExamID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="Int32" />
+          <Property Name="RoomID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CampusID" Type="Int32" />
+          <Property Name="ExamStageID" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="Campu" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Campus" FromRole="ScheduledExam" ToRole="Campus" />
+          <NavigationProperty Name="Course" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Course" FromRole="ScheduledExam" ToRole="Course" />
+          <NavigationProperty Name="ExamStage" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_ExamStage" FromRole="ScheduledExam" ToRole="ExamStage" />
+          <NavigationProperty Name="Room" Relationship="ExamSchedulerDbModel.FK_ScheduledExam_Room" FromRole="ScheduledExam" ToRole="Room" />
+          <NavigationProperty Name="ScheduledExamProcters" Relationship="ExamSchedulerDbModel.FK_ScheduledExamProcter_ScheduledExam" FromRole="ScheduledExam" ToRole="ScheduledExamProcter" />
+          <NavigationProperty Name="ScheduledExamStudents" Relationship="ExamSchedulerDbModel.FK_ScheduledExamStudent_ScheduledExam" FromRole="ScheduledExam" ToRole="ScheduledExamStudent" />
+        </EntityType>
+        <Association Name="FK_ScheduledExam_Campus">
+          <End Type="ExamSchedulerDbModel.Campus" Role="Campus" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campus">
+              <PropertyRef Name="CampusID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="CampusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_Course">
+          <End Type="ExamSchedulerDbModel.Course" Role="Course" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="CourseID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_ExamStage">
+          <End Type="ExamSchedulerDbModel.ExamStage" Role="ExamStage" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExamStage">
+              <PropertyRef Name="ExamStageID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="ExamStageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExam_Room">
+          <End Type="ExamSchedulerDbModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomID" />
+            </Principal>
+            <Dependent Role="ScheduledExam">
+              <PropertyRef Name="RoomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamProcter_ScheduledExam">
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExamProcter" Role="ScheduledExamProcter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledExam">
+              <PropertyRef Name="ScheduledExamID" />
+            </Principal>
+            <Dependent Role="ScheduledExamProcter">
+              <PropertyRef Name="ScheduledExamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScheduledExamStudent_ScheduledExam">
+          <End Type="ExamSchedulerDbModel.ScheduledExam" Role="ScheduledExam" Multiplicity="0..1" />
+          <End Type="ExamSchedulerDbModel.ScheduledExamStudent" Role="ScheduledExamStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduledExam">
+              <PropertyRef Name="ScheduledExamID" />
+            </Principal>
+            <Dependent Role="ScheduledExamStudent">
+              <PropertyRef Name="ScheduledExamID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamSchedulerDbModelStoreContainer" CdmEntityContainer="ExamSchedulerDbEntities">
+          <EntitySetMapping Name="Campus1">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.Campus">
+              <MappingFragment StoreEntitySet="Campus">
+                <ScalarProperty Name="CampusID" ColumnName="CampusID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Courses">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExamStages">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.ExamStage">
+              <MappingFragment StoreEntitySet="ExamStage">
+                <ScalarProperty Name="ExamStageID" ColumnName="ExamStageID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CampusID" ColumnName="CampusID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledExamProcters">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.ScheduledExamProcter">
+              <MappingFragment StoreEntitySet="ScheduledExamProcter">
+                <ScalarProperty Name="ScheduledExamID" ColumnName="ScheduledExamID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ScheduledExamProcterID" ColumnName="ScheduledExamProcterID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledExamStudents">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.ScheduledExamStudent">
+              <MappingFragment StoreEntitySet="ScheduledExamStudent">
+                <ScalarProperty Name="ScheduledExamID" ColumnName="ScheduledExamID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ScheduledExamStudentID" ColumnName="ScheduledExamStudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduledExams">
+            <EntityTypeMapping TypeName="ExamSchedulerDbModel.ScheduledExam">
+              <MappingFragment StoreEntitySet="ScheduledExam">
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ExamStageID" ColumnName="ExamStageID" />
+                <ScalarProperty Name="CampusID" ColumnName="CampusID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoomID" ColumnName="RoomID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="ScheduledExamID" ColumnName="ScheduledExamID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

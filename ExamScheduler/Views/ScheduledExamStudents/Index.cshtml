@@ -14,7 +14,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ScheduledExam.ScheduledExamID)
         </th>
-        <th>
+                    <th>Location</th>
             @Html.DisplayNameFor(model => model.User.Name)
         </th>
         <th></th>
@@ -30,7 +30,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ScheduledExamStudentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ScheduledExamStudentID }) |
+                            @Html.ActionLink("Details", "Details", new { id = exam.ScheduledExamStudentID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.ScheduledExamStudentID })
         </td>
     </tr>

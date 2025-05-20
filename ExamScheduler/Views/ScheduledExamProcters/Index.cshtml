@@ -1,39 +1,53 @@
 ﻿@model IEnumerable<ExamScheduler.ScheduledExamProcter>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Proctor Exam Schedule";
 }
 
-<h2>Index</h2>
+<h2>Proctor Exam Schedule</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ScheduledExam.ScheduledExamID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.Name)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ScheduledExam.ScheduledExamID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ScheduledExamProcterID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ScheduledExamProcterID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ScheduledExamProcterID })
-        </td>
-    </tr>
+@{
+    var proctors = Model.GroupBy(s => s.User);
 }
 
-</table>
+@foreach (var proctorGroup in proctors)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">@proctorGroup.Key.Name</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table datatable">
+                <thead>
+                    <tr>
+                        <th>Exam</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var exam in proctorGroup)
+                    {
+                        <tr>
+                            <td>@exam.ScheduledExam.Name</td>
+                            <td>@(exam.ScheduledExam.Date?.ToString("MM/dd/yyyy"))</td>
+                            <td>@(exam.ScheduledExam.StartTime?.ToString(@"hh\:mm")) - @(exam.ScheduledExam.EndTime?.ToString(@"hh\:mm"))</td>
+                            <td>@exam.ScheduledExam.Room?.Name</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = exam.ScheduledExamProcterID }) |
+                                @Html.ActionLink("Details", "Details", new { id = exam.ScheduledExamProcterID }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = exam.ScheduledExamProcterID })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

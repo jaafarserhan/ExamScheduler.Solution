@@ -17,10 +17,17 @@ namespace ExamScheduler.Controllers
         // GET: ScheduledExamStudents
         public ActionResult Index()
         {
-            var scheduledExamUsers = db.ScheduledExamStudents.Include(s => s.ScheduledExam).Include(s => s.User);
-            var scheduledExamStudents = scheduledExamUsers.Where(s => s.User.RoleID == 3).ToList();
+            var scheduledExamUsers = db.ScheduledExamStudents
+                .Include(s => s.ScheduledExam)
+                .Include(s => s.ScheduledExam.Course)
+                .Include(s => s.ScheduledExam.ExamStage)
+                .Include(s => s.ScheduledExam.Campu)
+                .Include(s => s.ScheduledExam.Room)
+                .Include(s => s.User)
+                .Where(s => s.User.RoleID == 3)
+                .ToList();
 
-            return View(scheduledExamStudents.ToList());
+            return View(scheduledExamUsers);
         }
 
         // GET: ScheduledExamStudents/Details/5

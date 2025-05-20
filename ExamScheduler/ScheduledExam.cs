@@ -24,7 +24,16 @@ namespace ExamScheduler
         public int ScheduledExamID { get; set; }
         public Nullable<int> CourseID { get; set; }
         public Nullable<int> RoomID { get; set; }
-        public string Name { get; set; }
+        public string Name 
+        { 
+            get 
+            {
+                if (Course == null || ExamStage == null || Campu == null || Room == null)
+                    return null;
+                return $"{Course.Name}-{ExamStage.Name}-{Campu.Name}-{Room.Name}";
+            }
+            set { } // Read-only property
+        }
         public Nullable<int> CampusID { get; set; }
         public Nullable<int> ExamStageID { get; set; }
         public Nullable<System.DateTime> Date { get; set; }

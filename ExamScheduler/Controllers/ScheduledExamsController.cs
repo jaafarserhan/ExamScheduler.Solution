@@ -56,11 +56,16 @@ namespace ExamScheduler.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Load related entities to generate the name
+                scheduledExam.Course = db.Courses.Find(scheduledExam.CourseID);
+                scheduledExam.ExamStage = db.ExamStages.Find(scheduledExam.ExamStageID);
+                scheduledExam.Campu = db.Campus1.Find(scheduledExam.CampusID);
+                scheduledExam.Room = db.Rooms.Find(scheduledExam.RoomID);
+                
                 db.ScheduledExams.Add(scheduledExam);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            scheduledExam.Name = scheduledExam.Course.Name + "-" + scheduledExam.ExamStage.Name + "-" + scheduledExam.Campu.Name;
 
             ViewBag.CampusID = new SelectList(db.Campus1, "CampusID", "Name", scheduledExam.CampusID);
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Name", scheduledExam.CourseID);
@@ -97,11 +102,16 @@ namespace ExamScheduler.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Load related entities to generate the name
+                scheduledExam.Course = db.Courses.Find(scheduledExam.CourseID);
+                scheduledExam.ExamStage = db.ExamStages.Find(scheduledExam.ExamStageID);
+                scheduledExam.Campu = db.Campus1.Find(scheduledExam.CampusID);
+                scheduledExam.Room = db.Rooms.Find(scheduledExam.RoomID);
+                
                 db.Entry(scheduledExam).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            scheduledExam.Name = scheduledExam.Course.Name + "-" + scheduledExam.ExamStage.Name + "-" + scheduledExam.Campu.Name ;
 
             ViewBag.CampusID = new SelectList(db.Campus1, "CampusID", "Name", scheduledExam.CampusID);
             ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Name", scheduledExam.CourseID);

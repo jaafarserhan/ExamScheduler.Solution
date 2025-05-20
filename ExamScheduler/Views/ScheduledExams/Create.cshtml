@@ -6,7 +6,6 @@
 
 <h2>Create</h2>
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -16,17 +15,17 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.CourseID, "CourseID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CourseID, "Course", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CourseID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("CourseID", null, htmlAttributes: new { @class = "form-control", @onchange = "updateName()" })
                 @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RoomID, "RoomID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RoomID, "Room", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RoomID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("RoomID", null, htmlAttributes: new { @class = "form-control", @onchange = "updateName()" })
                 @Html.ValidationMessageFor(model => model.RoomID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,23 +33,23 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CampusID, "CampusID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CampusID, "Campus", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CampusID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("CampusID", null, htmlAttributes: new { @class = "form-control", @onchange = "updateName()" })
                 @Html.ValidationMessageFor(model => model.CampusID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ExamStageID, "ExamStageID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ExamStageID, "Exam Stage", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ExamStageID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ExamStageID", null, htmlAttributes: new { @class = "form-control", @onchange = "updateName()" })
                 @Html.ValidationMessageFor(model => model.ExamStageID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +57,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -66,7 +65,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -74,7 +73,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -93,4 +92,20 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function updateName() {
+            var courseSelect = document.getElementById("CourseID");
+            var examStageSelect = document.getElementById("ExamStageID");
+            var campusSelect = document.getElementById("CampusID");
+            var roomSelect = document.getElementById("RoomID");
+            
+            var courseName = courseSelect.options[courseSelect.selectedIndex].text;
+            var examStageName = examStageSelect.options[examStageSelect.selectedIndex].text;
+            var campusName = campusSelect.options[campusSelect.selectedIndex].text;
+            var roomName = roomSelect.options[roomSelect.selectedIndex].text;
+            
+            var name = courseName + "-" + examStageName + "-" + campusName + "-" + roomName;
+            document.getElementById("Name").value = name;
+        }
+    </script>
 }

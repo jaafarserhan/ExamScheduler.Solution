@@ -17,8 +17,16 @@ namespace ExamScheduler.Controllers
         // GET: ScheduledExamProcters
         public ActionResult Index()
         {
-            var scheduledExamProcters = db.ScheduledExamProcters.Include(s => s.ScheduledExam).Include(s => s.User);
-            return View(scheduledExamProcters.ToList());
+            var scheduledExamProcters = db.ScheduledExamProcters
+                .Include(s => s.ScheduledExam)
+                .Include(s => s.ScheduledExam.Course)
+                .Include(s => s.ScheduledExam.ExamStage)
+                .Include(s => s.ScheduledExam.Campu)
+                .Include(s => s.ScheduledExam.Room)
+                .Include(s => s.User)
+                .ToList();
+
+            return View(scheduledExamProcters);
         }
 
         // GET: ScheduledExamProcters/Details/5
